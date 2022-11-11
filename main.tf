@@ -3,8 +3,11 @@ resource "aws_route53_resolver_config" "vpc" {
   autodefined_reverse_flag = "DISABLE"
 }
 
+locals {
+  name = var.log_group_name == null ? "/aws/resolvers/${var.vpc_id}/" : var.log_group_name
+}
 resource "aws_cloudwatch_log_group" "vpc" {
-  name_prefix = var.name_prefix
+  name = local.name
 
   retention_in_days = var.retention_in_days
 
